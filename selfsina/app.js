@@ -3,6 +3,20 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mysql=require('mysql');
+
+var connection=mysql.createConnection({
+  host:'localhost',
+  user:'root',
+  password:'123456'
+});
+connection.connect(function(err){
+  if(err){
+    console.err('error connecting'+err.stack);
+    return;
+  }
+  console.log('connected as id'+connection.threadId);
+})
 
 //首页以及用户主页面
 var indexRouter = require('./routes/index');
@@ -52,6 +66,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+//先使用mysql过度一下，mongodb以后再说
 
-//Mongodb
 module.exports = app;
